@@ -6,7 +6,7 @@ class Form(models.Model):
     id=models.AutoField(primary_key=True)
     location = models.CharField(max_length=256)
     indes = models.CharField(max_length=256)
-    dtinc = models.DateTimeField()
+    dtinc = models.CharField(max_length=256)
     incloc = models.CharField(max_length=256)
     insev=models.CharField(max_length=256)
     suscau=models.CharField(max_length=256)
@@ -16,3 +16,11 @@ class Form(models.Model):
     class Meta:
         db_table = "Form"
 
+class SubIncidents(models.Model):
+    id = models.AutoField(primary_key=True)
+    env = models.CharField(max_length=256)
+    inj = models.CharField(max_length=256)
+    pd = models.CharField(max_length=256)
+    veh = models.CharField(max_length=256)
+    class Meta:
+        db_table = "SubIncidents"

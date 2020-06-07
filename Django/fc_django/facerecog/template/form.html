@@ -1,1 +1,62 @@
-{{form}}
+<!--{{form}}-->
+
+<label for="location">*Location</label>&nbsp;
+  <input type="text" id="location" ><br>
+<label for="indes">*Incident Description</label>&nbsp;
+  <input type="textarea" id="indes" ><br>
+<label for="date">*Date and Time of the Incident</label>&nbsp;
+  <input type="date" id="date" >&nbsp;<input type="time" id="time" ><br>
+<label for="incloc">Incident Location</label>&nbsp;
+  <input type="textarea" id="incloc" ><br>
+<label for="insev">*Initial Severity</label>&nbsp;
+<select id="insev" >
+    <option value="Severe">Severe</option>
+    <option value="Moderate">Moderate</option>
+    <option value="Low">Low</option>
+</select><br>
+<label for="suscau">Suspected Cause</label>&nbsp;
+  <input type="textarea" id="suscau" ><br>
+<label for="imactk">Immediate Actions Taken</label>&nbsp;
+  <input type="textarea" id="imactk" ><br>
+<label>*Sub Incident Types</label>&nbsp;
+  <input type="checkbox" id="subincty1" >Environmental Incident<br>
+    <input type="checkbox" id="subincty2" >Injury/illness<br>
+<input type="checkbox" id="subincty3" >Property Damage<br>
+<input type="checkbox" id="subincty4" >Vehicle<br>
+<br>
+<label for="repby">*Reported By</label>&nbsp;
+  <input type="text" id="repby" ><br>
+<button onclick="userAction()">Click Me</button>
+ <script type="text/javascript">
+ userAction=async()=> {
+  mb2={
+ "env":document.getElementById("subincty1").value,
+ "inj":document.getElementById("subincty2").value,
+ "pd":document.getElementById("subincty3").value,
+ "veh":document.getElementById("subincty4").value
+ }
+ myBody={
+ "location":document.getElementById("location").value,
+ "indes":document.getElementById("indes").value,
+ "date":document.getElementById("date").value,
+ "time":document.getElementById("time").value,
+ "incloc":document.getElementById("incloc").value,
+ "insev":document.getElementById("insev").value,
+ "suscau":document.getElementById("suscau").value,
+ "imactk":document.getElementById("imactk").value,
+ "repby":document.getElementById("repby").value,
+ "subincty":mb2
+ }
+
+ console.log(myBody)
+ response = await fetch('http://localhost:8000/post', {
+    method: 'POST',
+    body: myBody,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+alert("Hi")
+}
+
+</script>
