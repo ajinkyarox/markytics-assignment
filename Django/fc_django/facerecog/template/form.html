@@ -26,29 +26,29 @@
 <br>
 <label for="repby">*Reported By</label>&nbsp;
   <input type="text" id="repby" ><br>
-<button onclick="userAction()">Click Me</button>
+<button onclick="userAction()">Submit</button>
  <script type="text/javascript">
  userAction=async()=> {
-  mb2={
- "env":document.getElementById("subincty1").value,
- "inj":document.getElementById("subincty2").value,
- "pd":document.getElementById("subincty3").value,
- "veh":document.getElementById("subincty4").value
- }
- myBody={
- "location":document.getElementById("location").value,
- "indes":document.getElementById("indes").value,
- "date":document.getElementById("date").value,
- "time":document.getElementById("time").value,
- "incloc":document.getElementById("incloc").value,
- "insev":document.getElementById("insev").value,
- "suscau":document.getElementById("suscau").value,
- "imactk":document.getElementById("imactk").value,
- "repby":document.getElementById("repby").value,
- "subincty":mb2
- }
+  mb2=JSON.stringify({
+ env:document.getElementById("subincty1").value,
+ inj:document.getElementById("subincty2").value,
+ pd:document.getElementById("subincty3").value,
+ veh:document.getElementById("subincty4").value
+ })
+ myBody=JSON.stringify({
+ location:document.getElementById("location").value,
+ indes:document.getElementById("indes").value,
+ date:document.getElementById("date").value,
+ time:document.getElementById("time").value,
+ incloc:document.getElementById("incloc").value,
+ insev:document.getElementById("insev").value,
+ suscau:document.getElementById("suscau").value,
+ imactk:document.getElementById("imactk").value,
+ repby:document.getElementById("repby").value,
+ subincty:mb2
+ })
 
- console.log(myBody)
+console.log(myBody)
  response = await fetch('http://localhost:8000/post', {
     method: 'POST',
     body: myBody,
@@ -56,7 +56,7 @@
       'Content-Type': 'application/json'
     }
   });
-alert("Hi")
+alert(await response.json())
 }
 
 </script>

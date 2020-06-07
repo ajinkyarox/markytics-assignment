@@ -25,13 +25,22 @@ def view(request):
 
 @csrf_exempt
 def post(request):
+
+
+
     response={'status':'Failure'}
     try:
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        print(body_data)
         if request.method=="POST":
             response={'status':'Success'}
             fm=Form()
             body_unicode = request.body.decode('utf-8')
             body_data = json.loads(body_unicode)
+            print(body_data)
             fm.location=body_data['location']
             fm.indes = body_data['indes']
             fm.dtinc = body_data['date']+body_data['time']
@@ -42,6 +51,7 @@ def post(request):
             fm.repby=body_data['repby']
             fm.save()
             sb=SubIncidents()
+            print('d')
             if body_data['subincty']['env'].strip()!=None and body_data['subincty']['env'].strip()!='':
                 sb.env=str(Form.objects.get(repby=body_data['repby']))
             if body_data['subincty']['inj'].strip()!=None and body_data['subincty']['inj'].strip()!='':
@@ -54,4 +64,5 @@ def post(request):
             print(request)
     except Exception as e:
         response={'status':'Failure'+str(e)}
+    print(response)
     return JsonResponse(response,safe=False)
