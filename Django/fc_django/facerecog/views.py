@@ -46,7 +46,7 @@ def post(request):
                 fm = Form()
                 fm.location=body_data['location']
                 fm.indes = body_data['indes']
-                fm.dtinc = body_data['date']+body_data['time']
+                fm.dtinc = body_data['date']+" "+body_data['time']
                 fm.incloc = body_data['incloc']
                 fm.insev = body_data['insev']
                 fm.suscau = body_data['suscau']

@@ -1,12 +1,13 @@
 <!--{{form}}-->
 <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
 <script src="https://code.jquery.com/jquery-migrate-3.3.0.js"></script>
+
 <label for="location">*Location</label>&nbsp;
   <input type="text" id="location" ><br>
 <label for="indes">*Incident Description</label>&nbsp;
   <input type="textarea" id="indes" ><br>
-<label for="date">*Date and Time of the Incident</label>&nbsp;
-  <input type="date" id="date" >&nbsp;<input type="time" id="time" ><br>
+<label>*Date and Time of the Incident</label>&nbsp;
+  <input type="date" id="date" >&nbsp;<input type="time" id="time"  step="1" /><br>
 <label for="incloc">Incident Location</label>&nbsp;
   <input type="textarea" id="incloc" ><br>
 <label for="insev">*Initial Severity</label>&nbsp;
@@ -56,7 +57,7 @@ mb2.push("on")
  else {
  mb2.push("off")
  }
-console.log(mb2)
+console.log(document.getElementById("time").value)
  myBody=JSON.stringify({
  location:document.getElementById("location").value,
  indes:document.getElementById("indes").value,
