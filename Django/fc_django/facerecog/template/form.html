@@ -1,5 +1,6 @@
 <!--{{form}}-->
-
+<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.3.0.js"></script>
 <label for="location">*Location</label>&nbsp;
   <input type="text" id="location" ><br>
 <label for="indes">*Incident Description</label>&nbsp;
@@ -27,14 +28,35 @@
 <label for="repby">*Reported By</label>&nbsp;
   <input type="text" id="repby" ><br>
 <button onclick="userAction()">Submit</button>
- <script type="text/javascript">
+
+<script type="text/javascript">
  userAction=async()=> {
-  mb2=JSON.stringify({
- env:document.getElementById("subincty1").value,
- inj:document.getElementById("subincty2").value,
- pd:document.getElementById("subincty3").value,
- veh:document.getElementById("subincty4").value
- })
+ var mb2=[]
+ if(document.getElementById("subincty1").checked==true){
+mb2.push("on")
+ }
+ else {
+ mb2.push("off")
+ }
+ if(document.getElementById("subincty2").checked==true){
+mb2.push("on")
+ }
+ else {
+ mb2.push("off")
+ }
+  if(document.getElementById("subincty3").checked==true){
+mb2.push("on")
+ }
+ else {
+ mb2.push("off")
+ }
+  if(document.getElementById("subincty4").checked==true){
+mb2.push("on")
+ }
+ else {
+ mb2.push("off")
+ }
+console.log(mb2)
  myBody=JSON.stringify({
  location:document.getElementById("location").value,
  indes:document.getElementById("indes").value,
@@ -47,16 +69,21 @@
  repby:document.getElementById("repby").value,
  subincty:mb2
  })
-
-console.log(myBody)
- response = await fetch('http://localhost:8000/post', {
-    method: 'POST',
-    body: myBody,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-alert(await response.json())
+jQuery.ajax({
+          url: "http://localhost:8000/post",
+          type: "POST",
+          data: myBody,
+          dataType: "json",
+          beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
+              x.overrideMimeType("application/j-son;charset=UTF-8");
+            }
+          },
+          success: function(result) {
+ 	     //Write your code here
+ 	     alert(result)
+          }
+});
 }
 
 </script>

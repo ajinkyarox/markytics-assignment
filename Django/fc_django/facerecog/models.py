@@ -18,9 +18,9 @@ class Form(models.Model):
 
 class SubIncidents(models.Model):
     id = models.AutoField(primary_key=True)
-    env = models.CharField(max_length=256)
-    inj = models.CharField(max_length=256)
-    pd = models.CharField(max_length=256)
-    veh = models.CharField(max_length=256)
+    env = models.IntegerField(default=-1)
+    inj = models.IntegerField(default=-1)
+    pd = models.IntegerField(default=-1)
+    veh = models.IntegerField(default=-1)
     class Meta:
         db_table = "SubIncidents"

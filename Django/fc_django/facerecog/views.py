@@ -19,50 +19,57 @@ import sys
 sys.path.append(".")"""
 from facerecog.forms import Form
 
+
 def view(request):
     form=Form()
     return render(request,'form.html',{'form':form})
 
 @csrf_exempt
 def post(request):
-
-
-
     response={'status':'Failure'}
     try:
-        body_unicode = request.body.decode('utf-8')
-        body_data = json.loads(body_unicode)
-        body_unicode = request.body.decode('utf-8')
-        body_data = json.loads(body_unicode)
-        print(body_data)
+
         if request.method=="POST":
             response={'status':'Success'}
-            fm=Form()
+
             body_unicode = request.body.decode('utf-8')
             body_data = json.loads(body_unicode)
-            print(body_data)
-            fm.location=body_data['location']
-            fm.indes = body_data['indes']
-            fm.dtinc = body_data['date']+body_data['time']
-            fm.incloc = body_data['incloc']
-            fm.insev = body_data['insev']
-            fm.suscau = body_data['suscau']
-            fm.imactk = body_data['imactk']
-            fm.repby=body_data['repby']
-            fm.save()
-            sb=SubIncidents()
-            print('d')
-            if body_data['subincty']['env'].strip()!=None and body_data['subincty']['env'].strip()!='':
-                sb.env=str(Form.objects.get(repby=body_data['repby']))
-            if body_data['subincty']['inj'].strip()!=None and body_data['subincty']['inj'].strip()!='':
-                sb.inj=str(Form.objects.get(repby=body_data['repby']))
-            if body_data['subincty']['pd'].strip()!=None and body_data['subincty']['pd'].strip()!='':
-                sb.pd=str(Form.objects.get(repby=body_data['repby']))
-            if body_data['subincty']['veh'].strip()!=None and body_data['subincty']['veh'].strip()!='':
-                sb.veh=str(Form.objects.get(repby=body_data['repby']))
-            sb.save()
-            print(request)
+
+            from .models import Form
+            fr=None
+            try:
+                fr=Form.objects.get(location=body_data['location'],indes=body_data['indes'],insev=body_data['insev'],repby=body_data['repby'])
+            except Exception as e:
+                print(str(e))
+
+            if fr==None:
+                fm = Form()
+                fm.location=body_data['location']
+                fm.indes = body_data['indes']
+                fm.dtinc = body_data['date']+body_data['time']
+                fm.incloc = body_data['incloc']
+                fm.insev = body_data['insev']
+                fm.suscau = body_data['suscau']
+                fm.imactk = body_data['imactk']
+                fm.repby=body_data['repby']
+
+                fm.save()
+                sb=SubIncidents()
+                obj=body_data['subincty']
+                print(obj)
+                if obj[0]=='on':
+                    sb.env=Form.objects.get(location=body_data['location'],indes=body_data['indes'],insev=body_data['insev'],repby=body_data['repby']).id
+                if obj[1]=='on':
+                    sb.inj=Form.objects.get(location=body_data['location'],indes=body_data['indes'],insev=body_data['insev'],repby=body_data['repby']).id
+                if obj[2]=='on':
+                    sb.pd=Form.objects.get(location=body_data['location'],indes=body_data['indes'],insev=body_data['insev'],repby=body_data['repby']).id
+                if obj[3]=='on':
+                    sb.veh=Form.objects.get(location=body_data['location'],indes=body_data['indes'],insev=body_data['insev'],repby=body_data['repby']).id
+                sb.save()
+                print(request)
+            else:
+                response = {'status': 'Failure-Record already exists.'}
     except Exception as e:
-        response={'status':'Failure'+str(e)}
+        response={'status':'Failure:Exception-'+str(e)}
     print(response)
     return JsonResponse(response,safe=False)
